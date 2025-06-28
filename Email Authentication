@@ -1,0 +1,181 @@
+import 'package:flutter/material.dart';
+
+class bag extends StatefulWidget {
+  const bag({super.key});
+
+  @override
+  State<bag> createState() => _bagState();
+}
+
+class _bagState extends State<bag> {
+  final _key = GlobalKey<FormState>();
+
+
+  bool show =false;
+  TextEditingController ctrl = TextEditingController();
+  TextEditingController ctrl2 = TextEditingController();
+  TextEditingController ctrl3 = TextEditingController();
+  TextEditingController ctrl4 = TextEditingController();
+
+
+
+
+  bool password = true;
+
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Center(child: Text('Login'),),
+      ),
+      body: SingleChildScrollView(
+        child: Form(
+          key: _key,
+            child:
+            Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 11.0),
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.person),
+                    hintText: 'Enter Your Name',
+                    border: OutlineInputBorder()
+                  ),
+                  validator: (a){
+                    if(a== null || a.isEmpty){
+                      return "please enter your name";
+                    }
+                    return null;
+                },
+                  controller: ctrl,
+                  onChanged: (i){
+                    setState(() {
+                    ctrl.text.isNotEmpty && ctrl2.text.isNotEmpty && ctrl3.text.isNotEmpty && ctrl4.text.isNotEmpty? show = true: show = false;
+                    });
+
+                  },
+
+                ),
+
+
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 11.0),
+                  decoration:InputDecoration(
+                    prefixIcon: Icon(Icons.email),
+                    hintText: 'Enter your E mail',
+                    border: OutlineInputBorder(),
+                  ),
+                    validator: (c){
+                      if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+[a-zA-Z]+").hasMatch(c!))
+                      {
+                        return "please Enter Your Email";
+                      }
+                      return null;
+                    },
+                  controller: ctrl2,
+                  onChanged: (c){
+                    setState(() {
+                      ctrl.text.isNotEmpty && ctrl2.text.isNotEmpty && ctrl3.text.isNotEmpty && ctrl4.text.isNotEmpty? show = true: show = false;                });
+                  },
+
+
+
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 11.0),
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.phone),
+                    hintText: 'Enter Your PassWord',
+                    border: OutlineInputBorder()
+                  ),
+                    validator:(email){
+                      if(!RegExp(r'^[0-9]\d{9}$').hasMatch(email!))
+                      {
+                        return "please Enter your ph.no";
+                      }
+                      return null;
+
+                    },
+                  controller: ctrl3,
+                  onChanged: (b){
+                    setState(() {
+                      ctrl.text.isNotEmpty && ctrl2.text.isNotEmpty && ctrl3.text.isNotEmpty && ctrl4.text.isNotEmpty? show = true: show = false; });
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  obscureText: password,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 11.0),
+                  decoration: InputDecoration(
+                   labelText: 'password',
+                    prefixIcon: Icon(Icons.lock),
+                    border: OutlineInputBorder(),
+                    suffixIcon: IconButton(onPressed: (){
+                      setState(() {
+                        password =!password;
+                      });
+                    }, icon: Icon(Icons.remove_red_eye)),
+                  //  suffixIcon: Icon(Icons.remove_red_eye.)
+                  ),
+                  validator: (d){
+                    if(!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(d!))
+                    {
+                      return "please enter your password";
+                    }
+                    return null;
+
+                  },
+                  controller: ctrl4,
+                  onChanged: (d){
+                    setState(() {
+                      ctrl.text.isNotEmpty && ctrl2.text.isNotEmpty && ctrl3.text.isNotEmpty && ctrl4.text.isNotEmpty? show = true: show = false;                });
+                  },
+
+                ),
+              ),
+              Visibility(
+                visible: show,
+                child: OutlinedButton(onPressed:(){
+                  if(_key.currentState!.validate()){
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("log in successful") ));
+
+                  }
+                  else{
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("log in failed") ));
+
+                  }
+                } , child:Text("ok") ),
+              ),
+              Container(
+                height: 1000,
+                width: 300,
+                color: Colors.red,
+              )
+
+
+            ],
+          ),
+        ),
+      ),
+
+
+    );
+  }
+}
